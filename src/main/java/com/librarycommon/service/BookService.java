@@ -24,6 +24,9 @@ public class BookService {
     private BookRepository bookRepository;
 
     public List<Book> findAllBooks(String page, String size) {
+        if (logger.isDebugEnabled()) {
+            logger.info("Inside findAllBooks()");
+        }
         List<Book> book = null;
         try {
             if (page!= null && size != null) {
@@ -39,12 +42,20 @@ public class BookService {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if (logger.isErrorEnabled()) {
+               logger.error("Exception inside findAllBooks()");
+            }
+        }
+        if (logger.isDebugEnabled()) {
+            logger.info("Exit from findAllBooks()");
         }
         return book;
     }
 
     public Book findBookById(Long bookId) {
+        if (logger.isDebugEnabled()) {
+            logger.info("Exit from findBookById()");
+        }
         Book book = null;
         try {
             Optional<Book> bookPresent = bookRepository.findById(bookId);
@@ -55,6 +66,9 @@ public class BookService {
             if (logger.isErrorEnabled()) {
                 logger.error("Exception inside findBookById()");
             }
+        }
+        if (logger.isDebugEnabled()) {
+            logger.info("Exit from findBookById()");
         }
         return book;
     }

@@ -33,6 +33,9 @@ public class BookController {
                 logger.error("Exception inside getAllBooks()",e);
             }
         }
+        if (logger.isDebugEnabled()) {
+            logger.info("Exit from getAllBooks()");
+        }
         return allBooks;
     }
 
