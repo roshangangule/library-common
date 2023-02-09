@@ -1,3 +1,4 @@
+/*
 package com.librarycommon.controller;
 
 import com.librarycommon.dao.BookRepository;
@@ -47,3 +48,4 @@ public class BookController {
         return bookService.findBookById(bookId);
     }
 }
+*/
