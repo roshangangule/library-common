@@ -20,7 +20,4 @@ public class Review {
     private double rating;
     private Long bookId;
     private String reviewDescription;
-
-
-
 }

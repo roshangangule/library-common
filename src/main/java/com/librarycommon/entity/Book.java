@@ -23,5 +23,4 @@ public class Book {
     private int copiesAvailable;
     private String category;
     private String img;
-
 }
