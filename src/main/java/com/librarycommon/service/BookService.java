@@ -5,8 +5,7 @@ import com.librarycommon.utility.LibraryCommonUtility;
 import com.librarycommon.dao.BookRepository;
 import com.librarycommon.entity.Book;
 import com.librarycommon.vo.ResponseVo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,16 +15,15 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
+@Slf4j
 public class BookService {
-
-    private Logger logger = LoggerFactory.getLogger(BookService.class);
-
+    
     @Autowired
     private BookRepository bookRepository;
 
     public ResponseVo getBooks(String page, String size) {
-        if (logger.isDebugEnabled()) {
-            logger.info("Inside findAllBooks()");
+        if (log.isDebugEnabled()) {
+            log.info("Inside findAllBooks()");
         }
         ResponseVo responseVo = null;
         List<Book> book = null;
@@ -53,20 +51,20 @@ public class BookService {
             responseVo.setData(dataMap);
             LibraryCommonUtility.createSuccessResponse(responseVo);
         } catch (Exception e) {
-            if (logger.isErrorEnabled()) {
-               logger.error("Exception inside findAllBooks()");
+            if (log.isErrorEnabled()) {
+               log.error("Exception inside findAllBooks()");
             }
             throw new LibraryCommonException("500","Something missing in request params", new ResponseVo());
         }
-        if (logger.isDebugEnabled()) {
-            logger.info("Exit from findAllBooks()");
+        if (log.isDebugEnabled()) {
+            log.info("Exit from findAllBooks()");
         }
         return responseVo;
     }
 
     public ResponseVo getBookById(Long bookId) {
-        if (logger.isDebugEnabled()) {
-            logger.info("Exit from findBookById()");
+        if (log.isDebugEnabled()) {
+            log.info("Exit from findBookById()");
         }
         Book book = null;
         ResponseVo responseVo = null;
@@ -79,19 +77,19 @@ public class BookService {
             responseVo.setData(book);
             LibraryCommonUtility.createSuccessResponse(responseVo);
         } catch (LibraryCommonException e) {
-            if (logger.isErrorEnabled()) {
-                logger.error("Exception inside findBookById()", e);
+            if (log.isErrorEnabled()) {
+                log.error("Exception inside findBookById()", e);
             }
         }
-        if (logger.isDebugEnabled()) {
-            logger.info("Exit from findBookById()");
+        if (log.isDebugEnabled()) {
+            log.info("Exit from findBookById()");
         }
         return responseVo;
     }
 
     public ResponseVo getBookByTitle(String title, String page, String size) {
-        if (logger.isDebugEnabled()) {
-            logger.info("Inside getBookByTitle()");
+        if (log.isDebugEnabled()) {
+            log.info("Inside getBookByTitle()");
         }
         ResponseVo responseVo = null;
         List<Book> book = null;
@@ -119,8 +117,8 @@ public class BookService {
             responseVo.setData(dataMap);
             LibraryCommonUtility.createSuccessResponse(responseVo);
         } catch (LibraryCommonException e) {
-            if (logger.isErrorEnabled()) {
-                logger.error("Exception inside getBookByTitle()");
+            if (log.isErrorEnabled()) {
+                log.error("Exception inside getBookByTitle()");
             }
             throw new LibraryCommonException("500","Something missing in request params", new ResponseVo());
         }
@@ -128,8 +126,8 @@ public class BookService {
     }
 
     public ResponseVo getBookByCategory(String category, String page, String size) {
-        if (logger.isDebugEnabled()) {
-            logger.info("Inside getBookByCategory()");
+        if (log.isDebugEnabled()) {
+            log.info("Inside getBookByCategory()");
         }
         ResponseVo responseVo = null;
         List<Book> book = null;
@@ -157,8 +155,8 @@ public class BookService {
             responseVo.setData(dataMap);
             LibraryCommonUtility.createSuccessResponse(responseVo);
         } catch (LibraryCommonException e) {
-            if (logger.isErrorEnabled()) {
-                logger.error("Exception inside getBookByCategory()");
+            if (log.isErrorEnabled()) {
+                log.error("Exception inside getBookByCategory()");
             }
             throw new LibraryCommonException("500","Something missing in request params", new ResponseVo());
         }
