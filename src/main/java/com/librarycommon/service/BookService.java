@@ -27,7 +27,7 @@ public class BookService {
         if (logger.isDebugEnabled()) {
             logger.info("Inside findAllBooks()");
         }
-        ResponseVo responseVo = new ResponseVo();
+        ResponseVo responseVo = null;
         List<Book> book = null;
         Map<String,Object> dataMap = new HashMap<>();
         Map<String,String> pageMap = new HashMap<>();
@@ -49,6 +49,7 @@ public class BookService {
             }
             dataMap.put("books", book);
             dataMap.put("page",pageMap);
+            responseVo = new ResponseVo();
             responseVo.setData(dataMap);
             LibraryCommonUtility.createSuccessResponse(responseVo);
         } catch (Exception e) {
@@ -77,13 +78,89 @@ public class BookService {
             responseVo = new ResponseVo();
             responseVo.setData(book);
             LibraryCommonUtility.createSuccessResponse(responseVo);
-        } catch (Exception e) {
+        } catch (LibraryCommonException e) {
             if (logger.isErrorEnabled()) {
-                logger.error("Exception inside findBookById()");
+                logger.error("Exception inside findBookById()", e);
             }
         }
         if (logger.isDebugEnabled()) {
             logger.info("Exit from findBookById()");
+        }
+        return responseVo;
+    }
+
+    public ResponseVo getBookByTitle(String title, String page, String size) {
+        if (logger.isDebugEnabled()) {
+            logger.info("Inside getBookByTitle()");
+        }
+        ResponseVo responseVo = null;
+        List<Book> book = null;
+        Map<String,Object> dataMap = new HashMap<>();
+        Map<String,String> pageMap = new HashMap<>();
+        Page<Book> pagedResult = null;
+        try {
+            if (page!= null && size != null) {
+                Pageable paging = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
+                pagedResult = bookRepository.findByTitleContaining(title,paging);
+            } else {
+                page = "0";
+                size = "1";
+                Pageable paging = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
+                pagedResult = bookRepository.findByTitleContaining(title,paging);
+            }
+            if( pagedResult != null && !pagedResult.isEmpty()) {
+                book = pagedResult.getContent();
+                pageMap.put("totalElements",String.valueOf(pagedResult.getTotalElements()));
+                pageMap.put("totalPages",String.valueOf(LibraryCommonUtility.getTotalPages(Integer.parseInt(size), pagedResult.getTotalElements())));
+            }
+            dataMap.put("books", book);
+            dataMap.put("page",pageMap);
+            responseVo = new ResponseVo();
+            responseVo.setData(dataMap);
+            LibraryCommonUtility.createSuccessResponse(responseVo);
+        } catch (LibraryCommonException e) {
+            if (logger.isErrorEnabled()) {
+                logger.error("Exception inside getBookByTitle()");
+            }
+            throw new LibraryCommonException("500","Something missing in request params", new ResponseVo());
+        }
+        return responseVo;
+    }
+
+    public ResponseVo getBookByCategory(String category, String page, String size) {
+        if (logger.isDebugEnabled()) {
+            logger.info("Inside getBookByCategory()");
+        }
+        ResponseVo responseVo = null;
+        List<Book> book = null;
+        Map<String,Object> dataMap = new HashMap<>();
+        Map<String,String> pageMap = new HashMap<>();
+        Page<Book> pagedResult = null;
+        try {
+            if (page!= null && size != null) {
+                Pageable paging = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
+                pagedResult = bookRepository.findByCategory(category,paging);
+            } else {
+                page = "0";
+                size = "1";
+                Pageable paging = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
+                pagedResult = bookRepository.findByCategory(category,paging);
+            }
+            if( pagedResult != null && !pagedResult.isEmpty()) {
+                book = pagedResult.getContent();
+                pageMap.put("totalElements",String.valueOf(pagedResult.getTotalElements()));
+                pageMap.put("totalPages",String.valueOf(LibraryCommonUtility.getTotalPages(Integer.parseInt(size), pagedResult.getTotalElements())));
+            }
+            dataMap.put("books", book);
+            dataMap.put("page",pageMap);
+            responseVo = new ResponseVo();
+            responseVo.setData(dataMap);
+            LibraryCommonUtility.createSuccessResponse(responseVo);
+        } catch (LibraryCommonException e) {
+            if (logger.isErrorEnabled()) {
+                logger.error("Exception inside getBookByCategory()");
+            }
+            throw new LibraryCommonException("500","Something missing in request params", new ResponseVo());
         }
         return responseVo;
     }

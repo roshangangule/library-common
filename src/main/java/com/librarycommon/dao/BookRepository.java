@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book,Long> {
 
-    Page<Book> findByTitleContaining(@RequestParam String title, Pageable pageable);
+    Page<Book> findByTitleContaining(String title, Pageable pageable);
 
-    Page<Book> findByCategory(@RequestParam("category") String category, Pageable pageable);
+    Page<Book> findByCategory(String category, Pageable pageable);
 }

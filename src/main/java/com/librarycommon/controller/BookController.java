@@ -39,4 +39,28 @@ public class BookController {
         ResponseVo responseVo = bookService.getBookById(bookId);
         return new ResponseEntity<>(responseVo, HttpStatus.OK);
     }
+    @GetMapping("/books/search/title")
+    public ResponseEntity<ResponseVo> getBookByTitle(
+            @RequestParam(name = "title") String title,
+            @RequestParam(required = false) String page,
+            @RequestParam(required = false) String size
+    ) {
+        if (logger.isDebugEnabled()) {
+            logger.info("Inside getBook()");
+        }
+        ResponseVo responseVo = bookService.getBookByTitle(title,page,size);
+        return new ResponseEntity<>(responseVo, HttpStatus.OK);
+    }
+    @GetMapping("/books/search/category")
+    public ResponseEntity<ResponseVo> getBookByCategory(
+            @RequestParam(name = "category") String category,
+            @RequestParam(required = false) String page,
+            @RequestParam(required = false) String size
+    ) {
+        if (logger.isDebugEnabled()) {
+            logger.info("Inside getBook()");
+        }
+        ResponseVo responseVo = bookService.getBookByCategory(category,page,size);
+        return new ResponseEntity<>(responseVo, HttpStatus.OK);
+    }
 }

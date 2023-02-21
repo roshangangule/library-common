@@ -8,6 +8,7 @@ import com.librarycommon.exception.LibraryCommonException;
 import com.librarycommon.vo.ResponseVo;
 import com.librarycommon.vo.SubResponseVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -63,6 +64,8 @@ public class LibraryCommonUtility {
             Long pages = totalElements / size;
             if (result >= 1) {
                 totalPages = pages + 1;
+            } else {
+                totalPages = pages;
             }
         }
         return totalPages;
